@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import hospital from "../landing.jpg"
 import { Button } from '@/components/ui/button'
+import { Container } from '@/components/Container'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -17,7 +18,8 @@ function App() {
           className="w-full h-full object-cover"
         />
         <div>
-          <div className="absolute flex-col inset-0 flex justify-center max-md:justify-start max-sm:py-10  p-5 max-md:p-10 gap-7">
+          <Container className="absolute flex-col inset-0 flex justify-center max-md:justify-start max-sm:py-10  p-5 max-md:p-10 gap-7">
+            {/* <Container className=""> */}
             <p className="text-black text-5xl max-w-2xl font-bold max-md:text-4xl max-md:max-w-xl max-sm:text-[1.75rem]">
               Connect Facilities With Top Health Care Professionals
             </p>
@@ -25,16 +27,16 @@ function App() {
               <Button>I&apos;m a Professional</Button>
               <Button variant="outline">I&apos;m a Facility</Button>
             </div>
-          </div>
+            {/* </Container> */}
+          </Container>
         </div>
       </div>
       {/* Reviews */}
-      <section className="p-10">
-        <h2 className="text-black text-5xl text-align-center">What Our Customers Say About Us</h2>
+      <section >
+        <h2 className="p-6 text-black text-5xl text-align-center font-bold max-md:text-3xl">What Our Customers Say About Us</h2>
 
 
       </section>
-
     </div >
 
   )
