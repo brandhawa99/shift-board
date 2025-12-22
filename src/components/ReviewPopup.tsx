@@ -10,7 +10,7 @@ const ReviewPopup = ({ review, location, name, rating, isLong }: ReviewPopUpProp
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"link"} className="self-start text-blue-600 font-semibold hover:text-blue-700"
+        <Button variant={"link"} className="self-start p-0 text-blue-600 font-semibold hover:text-blue-700"
         >{isLong ? "...Read More" : "Expand"}
         </Button>
       </DialogTrigger>
