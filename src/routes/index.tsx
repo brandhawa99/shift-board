@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import hospital from "../landing.jpg"
+import hospital from "../landing.webp";
 import { Button } from '@/components/ui/button'
 import { Container } from '@/components/Container'
 import { Carousel, CarouselContent, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
@@ -17,6 +17,7 @@ function App() {
       <div className="relative h-96 w-full">
         <img
           src={hospital}
+          fetchPriority='high'
           alt="hospital"
           className="w-full h-full object-cover"
         />
@@ -37,8 +38,8 @@ function App() {
       {/* Reviews */}
 
       <section className="w-full bg-blue-200 p-6 py-10">
-        <Container className="flex justify-between items-center max-md:flex-col ">
-          <h2 className="p-6 max-w-2xl text-black text-5xl font-medium max-md:text-3xl max-md:py-2 ">What Our Customers Say About Us❤️</h2>
+        <Container className="flex justify-between items-center max-[900px]:flex-col ">
+          <h2 className="p-6 max-w-2xl text-black text-5xl font-medium max-md:text-3xl max-md:py-2 max-md:text-center">What Our Customers Say About Us❤️</h2>
           <Carousel className="w-full max-w-md" opts={{ align: "start", loop: true }}>
             <CarouselContent>
               {FacilityReviews.map((review) => (
@@ -60,7 +61,7 @@ function App() {
       </section>
       {/* Move the Carousel Item to its own component  */}
       <section className="w-full bg-blue-300 p-6 py-10">
-        <Container className="flex flex-row-reverse justify-between items-center max-md:flex-col">
+        <Container className="flex flex-row-reverse justify-between items-center max-[900px]:flex-col">
           <h2 className="p-6 max-w-2xl text-black text-5xl font-medium max-md:text-3xl max-md:py-2 ">What Our Professionals Say About Us❤️</h2>
           <Carousel className="w-full max-w-md" opts={{ align: "start", loop: true }}>
             <CarouselContent>
