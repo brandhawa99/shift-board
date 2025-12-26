@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import hospital from "../landing.webp";
+import hospital from "../images/landing.webp";
 import { Button } from '@/components/ui/button'
 import { Container } from '@/components/Container'
 import { Carousel, CarouselContent, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'

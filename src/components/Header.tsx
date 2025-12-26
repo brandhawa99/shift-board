@@ -1,6 +1,6 @@
 import { MoveRight } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
-import logo from "../health-checklist-svgrepo-com.svg"
+import logo from "../images/health-checklist-svgrepo-com.svg"
 import { Button } from "./ui/button";
 import { Container } from "./Container";
 
