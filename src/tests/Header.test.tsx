@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
 import {
+  RouterProvider,
   createMemoryHistory,
   createRootRoute,
   createRoute,
-  createRouter,
-  RouterProvider
+  createRouter
 } from '@tanstack/react-router'
 import { act } from 'react'
 import Header from '../components/Header'
