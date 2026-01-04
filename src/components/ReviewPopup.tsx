@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import type { ReviewCardProps } from "./ReviewCard"
 
@@ -16,6 +16,7 @@ const ReviewPopup = ({ review, location, name, rating, isLong }: ReviewPopUpProp
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
+        <DialogTitle>Review</DialogTitle>
         <DialogHeader className="py-4">
           <DialogDescription className='text-xl leading-relaxed text-foreground text-left'>
             {review}
