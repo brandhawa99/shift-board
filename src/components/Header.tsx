@@ -2,6 +2,7 @@ import { MoveRight } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import logo from "../images/health-checklist-svgrepo-com.svg"
 import logoColour from "../images/health-checklist-svgrepo-com-colour.svg"
+
 import { Button } from "./ui/button";
 import { Container } from "./Container";
 
@@ -21,17 +22,20 @@ export default function Header() {
               !isDashboard ? (
                 <img src={logo} alt="logo" className="h-8 w-8 ml-2 fill-current" />
               ) : (
-                <img src={logoColour} alt="logo" className="h-8 w-8 ml-2 fill-current" />
+                <img src={logoColour} alt="logo" className="h-8 w-8 ml-2 fill-current" loading="lazy" />
               )
             }
           </h1>
         </Link>
         <div className="flex gap-2">
           <div className="flex items">
-            <div className="flex gap-2 items-center text-md">
-              Click Here
-              <MoveRight color="#000000" strokeWidth={2} />
-            </div>
+            {
+              !isDashboard &&
+              <div className="flex gap-2 items-center text-md">
+                Click Here
+                <MoveRight color="#000000" strokeWidth={2} />
+              </div>
+            }
           </div>
           <Button>
             <Link to={isDashboard ? "/" : "/dashboard"}>

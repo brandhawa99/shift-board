@@ -1,22 +1,25 @@
+
 export type Shift = {
   id: string;
   facilityName: string;
   role: "CNA" | "RN" | "MA" | "CPT" | "LPN" | "NP" | "CG" | "ORRN" | "PT" | "CK" | "EVS" | "MISC";
-  city: string;
-  state:string;
-  startTime: string;
+  location: { city: string; state: string};
+  startTime: string
   hourlyRate: number; 
+  status: "available" | "claimed" | "pending" | "filled"
 }
+const now = new Date();
+const st = now.toISOString();
 
 export const mockShifts: Array<Shift> = [
   {
     id: '1',
     facilityName: 'General Hospital',
     role: 'RN',
-    city: 'Los Angeles',
-    state: 'CA',
-    startTime: new Date(Date.now() + 86400000).toISOString(),
+    location: { city: 'Los Angeles', state: 'CA' },
+    startTime: st,
     hourlyRate: 55,
+    status: 'available',
   },
 ]
 
