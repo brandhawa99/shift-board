@@ -1,7 +1,19 @@
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { memo, useMemo } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import type { ColumnDef } from "@tanstack/react-table";
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
+import { memo, useMemo } from 'react'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from './ui/table'
+import type { JSX } from 'react'
+import type { ColumnDef } from '@tanstack/react-table'
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -9,11 +21,15 @@ interface DataTableProps<TData, TValue> {
   isLoading: boolean
 }
 
-function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<TData, TValue>) {
-
-  const tableData = useMemo(() => (
-    isLoading ? Array(6).fill({}) : data
-  ), [data, isLoading])
+function DataTable<TData, TValue>({
+  columns,
+  data,
+  isLoading,
+}: DataTableProps<TData, TValue>) {
+  const tableData = useMemo(
+    () => (isLoading ? (Array(6).fill({}) as Array<TData>) : data),
+    [data, isLoading],
+  )
   const table = useReactTable({
     data: tableData,
     columns,
@@ -32,9 +48,9 @@ function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<T
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 )
               })}
@@ -42,11 +58,12 @@ function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<T
           ))}
         </TableHeader>
         <TableBody>
+          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                data-state={row.getIsSelected() && "selected"}
+                data-state={row.getIsSelected() && 'selected'}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -68,4 +85,6 @@ function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<T
   )
 }
 
-export default memo(DataTable)
+export default memo(DataTable) as <TData, TValue>(
+  props: DataTableProps<TData, TValue>,
+) => JSX.Element
