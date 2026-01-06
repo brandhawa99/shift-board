@@ -1,55 +1,60 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
   RouterProvider,
   createMemoryHistory,
   createRootRoute,
-  createRoute,
-  createRouter
+  createRouter,
 } from '@tanstack/react-router'
-import { act } from 'react'
-import Header from '../components/Header'
+import Header from '@/components/Header'
+import '@testing-library/jest-dom/vitest'
 
-// 1. Setup a minimal Route Tree for the test
-const rootRoute = createRootRoute()
-const indexRoute = createRoute({ getParentRoute: () => rootRoute, path: '/' })
-const dashboardRoute = createRoute({ getParentRoute: () => rootRoute, path: '/dashboard' })
-const routeTree = rootRoute.addChildren([indexRoute, dashboardRoute])
+describe('Header', () => {
+  const setupRouter = (initialPath = '/') => {
+    // 1. Create a root route that renders your Header
+    const rootRoute = createRootRoute({
+      component: Header,
+    })
 
-// Helper function to render Header with a specific path
-const renderHeader = async (path: string) => {
-  const history = createMemoryHistory({ initialEntries: [path] })
-  const router = createRouter({ routeTree, history })
+    // 2. Create the router with memory history
+    const router = createRouter({
+      routeTree: rootRoute,
+      history: createMemoryHistory({
+        initialEntries: [initialPath],
+      }),
+    })
 
-  let result;
+    return router
+  }
 
-  act(() => {
-    result = render(
-      <RouterProvider router={router} defaultComponent={() => <Header />} />
-    )
+  it("renders 'Health Board' logo text", async () => {
+    const router = setupRouter('/')
+    render(<RouterProvider router={router} />)
+
+    const logoText = await screen.findByText('Health Board')
+    expect(logoText).toBeInTheDocument()
+  })
+  it("renders 'Dashboard' Button on home page", async () => {
+    const router = setupRouter('/')
+    render(<RouterProvider router={router} />)
+
+    const link = await screen.findByRole('link', { name: /Dashboard/i })
+    expect(link).toHaveAttribute('href', '/dashboard')
   })
 
-  await router.load()
-  return result
-}
+  it("renders 'Home' Button on dashboard page", async () => {
+    const router = setupRouter('/dashboard')
+    render(<RouterProvider router={router} />)
 
-
-
-describe("Header Component", () => {
-  test("renders 'Dashboard' link when on the Home Page", async () => {
-    await renderHeader("/")
-
-    expect(screen.getByText(/Health Board/i)).toBeInTheDocument()
-
-    const actionButton = screen.getByRole("link", { name: /dashboard/i })
-    expect(actionButton).toBeInTheDocument()
-    expect(actionButton).toHaveAttribute("href", "/dashboard")
+    const link = await screen.findByRole('link', { name: /Home/i })
+    expect(link).toHaveAttribute('href', '/')
   })
-  test("renders 'Home' button when on the Dashboard Page", async () => {
-    await renderHeader("/dashboard")
 
-    const actionBUtton = screen.getByRole("link", { name: /home/i })
-    expect(actionBUtton).toBeInTheDocument()
-    expect(actionBUtton).toHaveAttribute("href", "/")
+  it("renders 'Logo' as Button to home on dashboard page", async () => {
+    const router = setupRouter('/dashboard')
+    render(<RouterProvider router={router} />)
+
+    const link = await screen.findByRole('link', { name: /Health Board/i })
+    expect(link).toHaveAttribute('href', '/')
   })
 })
