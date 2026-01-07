@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80" # Maps your machine's port 8080 to the container's port 80
+    environment:
+      - NODE_ENV=production
+    restart: always
+    command: /bin/sh -c "echo '🚀 App is ready at http://localhost:8080' && nginx -g 'daemon off;'"
