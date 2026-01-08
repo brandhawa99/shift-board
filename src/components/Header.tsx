@@ -36,7 +36,7 @@ export default function Header() {
         <div className="flex gap-2">
           <div className="flex items">
             {!isDashboard && (
-              <div className="flex gap-2 items-center text-md">
+              <div className="flex gap-2 items-center text-md max-md:hidden">
                 Click Here
                 <MoveRight color="#000000" strokeWidth={2} />
               </div>

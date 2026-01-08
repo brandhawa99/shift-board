@@ -39,7 +39,7 @@ function DataTable<TData, TValue>({
   return (
     <div className="overflow-hidden rounded-md border">
       <Table>
-        <TableHeader className="bg-gray-200">
+        <TableHeader className="bg-gray-200 max-md:hidden">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -64,6 +64,43 @@ function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                // 1. Change to flex-col on mobile, back to table-row on desktop
+                className="flex flex-col md:table-row border-b md:border-none py-4 md:py-0"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    // 2. Space cells vertically on mobile, restore cell layout on desktop
+                    className="flex justify-between items-center md:table-cell py-1.5 md:py-4"
+                  >
+                    {/* 3. Show Label on mobile only */}
+                    <span className="font-medium text-muted-foreground md:hidden mr-2">
+                      {cell.column.columnDef.header?.toString()}
+                    </span>
+
+                    <div className="text-right md:text-left">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </div>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+          {}
+          {/* {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -78,7 +115,7 @@ function DataTable<TData, TValue>({
                 No results.
               </TableCell>
             </TableRow>
-          )}
+          )} */}
         </TableBody>
       </Table>
     </div>
