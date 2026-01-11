@@ -1,4 +1,4 @@
-import { Button } from './ui/button'
+import { ArrowUpDown } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
 import {
   ActionCell,
@@ -9,6 +9,7 @@ import {
   RoleCell,
   StatusCell,
 } from './TableComponents'
+import { Button } from './ui/button'
 import type { Shift } from '@/mocks/shifts'
 import type { ColumnDef } from '@tanstack/react-table'
 
@@ -72,8 +73,8 @@ export const columns: Array<ColumnDef<Shift>> = [
       if (isLoading || Object.keys(row.original).length == 0) {
         return <Skeleton />
       }
-      const randomDays = Math.floor(Math.random() * 20) + 1
       const date = new Date()
+      const randomDays = Math.floor(Math.random() * 20) + 1
       date.setDate(date.getDate() + randomDays)
       const dateString = date.toLocaleDateString(undefined, {
         year: 'numeric',
@@ -90,7 +91,22 @@ export const columns: Array<ColumnDef<Shift>> = [
   },
   {
     accessorKey: 'hourlyRate',
-    header: 'Hourly Rate',
+    header: ({ column }) => {
+      return (
+        // hide button on mobile view
+        <>
+          <Button
+            variant="ghost"
+            className="-ml-4 h-8 data-[state=open]:bg-accent max-md:hidden"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Hourly Rate
+            <ArrowUpDown className="ml-2 h-4 w-4 max-md:hidden" />
+          </Button>
+          <div className="md:hidden">Hourly Rate</div>
+        </>
+      )
+    },
     cell: ({ row, table }) => {
       const isLoading = (table.options.meta as any)?.isLoading
       if (isLoading || Object.keys(row.original).length === 0) {
@@ -115,6 +131,9 @@ export const columns: Array<ColumnDef<Shift>> = [
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const status = row.original?.status
       return <StatusCell status={status} />
+    },
+    meta: {
+      filterVariant: 'range',
     },
   },
   {

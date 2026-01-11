@@ -1,9 +1,11 @@
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { memo, useMemo } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -12,29 +14,54 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table'
-import type { JSX } from 'react'
+import type { Dispatch, JSX, SetStateAction } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
   data: Array<TData>
   isLoading: boolean
+  getTableInstance: Dispatch<SetStateAction<TData>>
 }
+
+interface ColumnFilter {
+  id: string
+  value: unknown
+}
+
+type ColumnFiltersState = Array<ColumnFilter>
 
 function DataTable<TData, TValue>({
   columns,
   data,
   isLoading,
+  getTableInstance,
 }: DataTableProps<TData, TValue>) {
   const tableData = useMemo(
-    () => (isLoading ? (Array(6).fill({}) as Array<TData>) : data),
+    () => (isLoading ? (Array(11).fill({}) as Array<TData>) : data),
     [data, isLoading],
   )
+
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const table = useReactTable({
     data: tableData,
     columns,
+    state: {
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   })
+  useEffect(() => {
+    {
+      /* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */
+    }
+    if (getTableInstance) {
+      getTableInstance(table)
+    }
+  }, [table, getTableInstance])
 
   return (
     <div className="overflow-hidden rounded-md border">
@@ -75,7 +102,11 @@ function DataTable<TData, TValue>({
                   >
                     {/* 3. Show Label on mobile only */}
                     <span className="font-medium text-muted-foreground md:hidden mr-2">
-                      {cell.column.columnDef.header?.toString()}
+                      {flexRender(
+                        cell.column.columnDef.header,
+                        table.getHeaderGroups()[0].headers[0].getContext(),
+                      )}
+                      {/* {cell.column.columnDef.header?.toString()} */}
                     </span>
 
                     <div className="text-right md:text-left">

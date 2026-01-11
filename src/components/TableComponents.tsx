@@ -16,7 +16,7 @@ export const LocationCell = ({
   state: string
 }) => {
   return (
-    <div className="flex items-center justify-center text-center">
+    <div className="flex text-center">
       <div>
         {city},&nbsp;{state}
       </div>
