@@ -141,15 +141,10 @@ export const columns: Array<ColumnDef<Shift>> = [
     id: 'actions',
     cell: ({ row, table }) => {
       const isLoading = (table.options.meta as any)?.isLoading
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const status = row.original?.status
-
       if (isLoading || Object.keys(row.original).length == 0) {
         return <Skeleton />
       }
-
-      // const claim = row.original.status
-      return <ActionCell status={status} />
+      return <ActionCell row={row.original} table={table} />
     },
   },
 ]

@@ -14,8 +14,10 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table'
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog'
 import type { Dispatch, JSX, SetStateAction } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { Shift } from '@/mocks/shifts'
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -43,6 +45,7 @@ function DataTable<TData, TValue>({
   )
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [selectedShift, setSelectedShift] = useState<Shift | null>(null)
   const table = useReactTable({
     data: tableData,
     columns,
@@ -53,6 +56,10 @@ function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    //
+    meta: {
+      showShiftDetails: (shift: Shift) => setSelectedShift(shift),
+    },
   })
   useEffect(() => {
     {
@@ -126,29 +133,37 @@ function DataTable<TData, TValue>({
               </TableCell>
             </TableRow>
           )}
-          {}
-          {/* {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )} */}
         </TableBody>
       </Table>
+      <Dialog
+        open={!!selectedShift}
+        onOpenChange={() => setSelectedShift(null)}
+      >
+        <DialogContent>
+          <DialogTitle>Congrats On Getting Booked</DialogTitle>
+          <div className="py-4">
+            <p>
+              <strong>🏥Facility:</strong> {selectedShift?.facilityName}
+            </p>
+            <p>
+              <strong>📍Location:</strong> {selectedShift?.location.city}{' '}
+              {selectedShift?.location.state}
+            </p>
+            <p>
+              <strong>💰Rate:</strong> ${selectedShift?.hourlyRate}/hr
+            </p>
+            <p>
+              <strong>✨Status:</strong> {selectedShift?.status}
+            </p>
+            <p>
+              <strong>📞Contact:</strong> 123-123-1234
+            </p>
+            <p>
+              <strong>🤐Access Code:</strong> 123-123-1234
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

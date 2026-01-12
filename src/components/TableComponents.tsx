@@ -1,4 +1,6 @@
 import { Button } from './ui/button'
+import type { Shift } from '@/mocks/shifts'
+import type { Table } from '@tanstack/react-table'
 
 export const FacilityCell = ({ facilityName }: { facilityName: string }) => {
   return <div>{facilityName}</div>
@@ -61,12 +63,27 @@ const statusButtonStyles = {
   pending: 'bg-purple-600 hover:bg-purple-700 text-white',
   filled: 'bg-slate-200 text-slate-500 cursor-not-allowed',
 }
-export const ActionCell = ({ status }: { status: string }) => {
+export const ActionCell = ({
+  row,
+  table,
+}: {
+  row: Shift
+  table: Table<Shift>
+}) => {
+  const { status, id } = row
+
+  const handleAction = () => {
+    if (status === 'available') {
+    } else if (status == 'claimed') {
+      table.options.meta!.showShiftDetails(row)
+    }
+  }
+
   return (
     <Button
-      // Use 'ghost' or 'outline' as a base if you don't want the default 'primary' blue
+      onClick={handleAction}
       variant={status === 'filled' ? 'secondary' : 'default'}
-      className={statusButtonStyles[status as keyof typeof statusButtonStyles]}
+      className={statusButtonStyles[status]}
       disabled={status === 'filled' || status === 'pending'}
     >
       {status === 'available' && 'Claim Shift'}
