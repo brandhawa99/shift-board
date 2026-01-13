@@ -74,6 +74,7 @@ export const ActionCell = ({
 
   const handleAction = () => {
     if (status === 'available') {
+      table.options.meta!.updateStatusToPending(id)
     } else if (status == 'claimed') {
       table.options.meta!.showShiftDetails(row)
     }
