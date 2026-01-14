@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import type { Shift } from '@/mocks/shifts'
 import { Container } from '@/components/Container'
 import { columns } from '@/components/Columns'
 import DataTable from '@/components/DataTable'
@@ -19,6 +20,7 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
   const [network, setNetwork] = useState('normal')
 
+  const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ['shifts', network],
     queryFn: () => {
@@ -33,10 +35,20 @@ function RouteComponent() {
           return getShifts()
       }
     },
-    staleTime: 0,
+    staleTime: Infinity,
     gcTime: 0,
   })
 
+  const updateAvailableToPending = (id: Shift['id']) => {
+    queryClient.setQueryData(
+      ['shifts', network],
+      (oldData: Array<Shift> | undefined) => {
+        return oldData?.map((shift) =>
+          shift.id === id ? { ...shift, status: 'pending' as const } : shift,
+        )
+      },
+    )
+  }
   return (
     <div className="flex flex-col w-full bg-blue-200">
       <div className="w-full border-b-black">
@@ -56,6 +68,7 @@ function RouteComponent() {
             columns={columns}
             data={data ?? []}
             isLoading={isLoading}
+            updateShiftToPending={updateAvailableToPending}
           />
         </Container>
       </div>
