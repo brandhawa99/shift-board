@@ -148,6 +148,7 @@ function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        {/* Move to own file */}
         <Dialog
           open={!!selectedShift}
           onOpenChange={() => setSelectedShift(null)}

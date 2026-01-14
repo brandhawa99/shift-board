@@ -73,6 +73,7 @@ export const columns: Array<ColumnDef<Shift>> = [
       if (isLoading || Object.keys(row.original).length == 0) {
         return <Skeleton />
       }
+      // redo if you want later so time doesn't update on any query key update
       const date = new Date()
       const randomDays = Math.floor(Math.random() * 20) + 1
       date.setDate(date.getDate() + randomDays)
