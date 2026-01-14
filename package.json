@@ -16,7 +16,7 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "prettier --write",
-      "vitest run related  --bail=1"
+      "vitest run related --passWithNoTests --bail=1"
     ],
     "*{json,md}": [
       "prettier --write"

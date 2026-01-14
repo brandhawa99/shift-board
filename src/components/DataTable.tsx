@@ -25,7 +25,7 @@ import type { ColumnDef, RowData } from '@tanstack/react-table'
 import type { JSX } from 'react'
 import type { Shift } from '@/mocks/shifts'
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData = Shift, TValue = any> {
   columns: Array<ColumnDef<TData, TValue>>
   data: Array<TData>
   isLoading: boolean
@@ -45,14 +45,14 @@ declare module '@tanstack/react-table' {
   }
 }
 
-function DataTable<TData, TValue>({
+function DataTable<TData extends Shift, TValue>({
   columns,
   data,
   isLoading,
   updateShiftToPending,
 }: DataTableProps<TData, TValue>) {
   const tableData = useMemo(
-    () => (isLoading ? (Array(11).fill({}) as Array<Shift>) : data),
+    () => (isLoading ? (Array(11).fill({}) as Array<TData>) : data),
     [data, isLoading],
   )
 
