@@ -23,7 +23,7 @@ const withSkeleton = (Component: React.FC<any>) => {
   return (props: any) => {
     const isLoading = props.table.options.meta?.isLoading
     if (isLoading || Object.keys(props.row.original || {}).length === 0) {
-      return <Skeleton className="h-4 w-full" />
+      return <Skeleton />
     }
     return <Component {...props} />
   }
@@ -90,10 +90,9 @@ export const columns: Array<ColumnDef<Shift>> = [
         </>
       )
     },
-    cell: withSkeleton(({ row }) => {
-      const rate = row.original.hourlyRate
-      return <RateCell rate={rate.toFixed(2)} />
-    }),
+    cell: withSkeleton(({ row }) => (
+      <RateCell rate={row.original.hourlyRate.toFixed(2)} />
+    )),
   },
   {
     accessorKey: 'status',
