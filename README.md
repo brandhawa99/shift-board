@@ -1,4 +1,5 @@
 # Shift Board Health
+<img width="1024" height="768" alt="shift-board-pi-vercel-app-1024x768desktop-81f07d" src="https://github.com/user-attachments/assets/a7a6373b-7a48-4973-94cd-f2f286fdf609" />
 
 ## From Bug Fix to Marketplace Prototype
 
