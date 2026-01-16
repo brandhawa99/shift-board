@@ -10,73 +10,55 @@ import {
   StatusCell,
 } from './TableComponents'
 import { Button } from './ui/button'
+import type { ColumnDef, RowData } from '@tanstack/react-table'
 import type { Shift } from '@/mocks/shifts'
-import type { ColumnDef } from '@tanstack/react-table'
+
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    isLoading?: boolean
+  }
+}
+
+const withSkeleton = (Component: React.FC<any>) => {
+  return (props: any) => {
+    const isLoading = props.table.options.meta?.isLoading
+    if (isLoading || Object.keys(props.row.original || {}).length === 0) {
+      return <Skeleton className="h-4 w-full" />
+    }
+    return <Component {...props} />
+  }
+}
 
 export const columns: Array<ColumnDef<Shift>> = [
   {
     accessorKey: 'facilityName',
     header: 'Facility Name',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const facilityName = row.original?.facilityName
-      return <FacilityCell facilityName={facilityName} />
-    },
+    cell: withSkeleton(({ row }) => (
+      <FacilityCell facilityName={row.original.facilityName} />
+    )),
   },
   {
     accessorKey: 'role',
     header: 'Role',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const role = row.original?.role
-      return <RoleCell role={role} />
-    },
+    cell: withSkeleton(({ row }) => {
+      ;<RoleCell role={row.original.role} />
+    }),
   },
   {
     accessorKey: 'location',
     header: 'Location',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const location = row.original?.location
-      const { city, state } = location
-
-      if (!city || !state) {
-        return <span className="text-muted-foreground">N/A</span>
-      }
-
+    cell: withSkeleton(({ row }) => {
+      const { city, state } = row.original.location
       return <LocationCell city={city} state={state} />
-    },
+    }),
   },
   {
     accessorKey: 'startTime',
     header: 'Date',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
+    cell: withSkeleton(({ row }) => {
+      const timestamp = row.original.startTime
+      const date = new Date(timestamp)
 
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // redo if you want later so time doesn't update on any query key update
-      const date = new Date()
-      const randomDays = Math.floor(Math.random() * 20) + 1
-      date.setDate(date.getDate() + randomDays)
       const dateString = date.toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'long',
@@ -88,7 +70,7 @@ export const columns: Array<ColumnDef<Shift>> = [
         minute: '2-digit',
       })
       return <DateCell date={dateString} time={timeString} />
-    },
+    }),
   },
   {
     accessorKey: 'hourlyRate',
@@ -108,31 +90,18 @@ export const columns: Array<ColumnDef<Shift>> = [
         </>
       )
     },
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-      if (isLoading || Object.keys(row.original).length === 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const rate = row.original?.hourlyRate
-      if (!rate) {
-        return <span className="text-muted-foreground font-bold">N/A</span>
-      }
+    cell: withSkeleton(({ row }) => {
+      const rate = row.original.hourlyRate
       return <RateCell rate={rate.toFixed(2)} />
-    },
+    }),
   },
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const status = row.original?.status
-      return <StatusCell status={status} />
-    },
+    cell: withSkeleton(({ row }) => {
+      return <StatusCell status={row.original.status} />
+    }),
+
     meta: {
       filterVariant: 'range',
     },
@@ -141,7 +110,7 @@ export const columns: Array<ColumnDef<Shift>> = [
     header: 'Actions',
     id: 'actions',
     cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
+      const isLoading = table.options.meta?.isLoading
       if (isLoading || Object.keys(row.original).length == 0) {
         return <Skeleton />
       }
