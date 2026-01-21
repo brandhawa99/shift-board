@@ -36,7 +36,8 @@
       "@/*": ["./src/*"],
       "@/components": ["./src/components"],
       "@/images": ["./src/images"],
-      "@/types": ["./src/types"]
+      "@/types": ["./src/types"],
+      "@/lib": ["./src/lib"]
     }
   }
 }

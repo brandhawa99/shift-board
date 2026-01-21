@@ -10,7 +10,7 @@ import {
   getShiftsError,
   getShiftsSlow,
   noShifts,
-} from '@/mocks/shifts'
+} from '@/lib/fake-api'
 import NetworkSelect from '@/components/NetworkSelect'
 
 export const Route = createFileRoute('/dashboard')({
@@ -21,7 +21,7 @@ function RouteComponent() {
   const [network, setNetwork] = useState('normal')
 
   const queryClient = useQueryClient()
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['shifts', network],
     queryFn: () => {
       switch (network) {
@@ -37,6 +37,7 @@ function RouteComponent() {
     },
     staleTime: Infinity,
     gcTime: 0,
+    retry: false, // Disable automatic retries on failure - makes the getShiftError run only once
   })
 
   const updateAvailableToPending = (id: Shift['id']) => {
@@ -63,6 +64,11 @@ function RouteComponent() {
         </Container>
       </div>
       <div className="w-full bg-white border-t-black b-4">
+        {isError ? (
+          <Container className="py-6">
+            <div className="text-red-500 font-semibold">{error.message}</div>
+          </Container>
+        ) : null}
         <Container className="py-6">
           <DataTable
             columns={columns}

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Container } from './Container'
 import { Button } from './ui/button'
 import hospital from '@/images/landing.webp'
@@ -18,10 +19,13 @@ const HeroSection = () => {
             Connect Facilities With Top Health Care Professionals
           </p>
           <div className="flex gap-4">
-            <Button>I&apos;m a Professional</Button>
-            <Button variant="outline">I&apos;m a Facility</Button>
+            <Button asChild>
+              <Link to={'/dashboard'}>I&apos;m a Professional</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to={'/dashboard'}>I&apos;m a Facility</Link>
+            </Button>
           </div>
-          {/* </Container> */}
         </Container>
       </div>
     </div>
