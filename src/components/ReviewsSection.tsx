@@ -24,6 +24,7 @@ const ReviewsSection = () => {
             <CarouselContent>
               {FacilityReviews.map((review: FacilityReview) => (
                 <ReviewCard
+                  key={review.id + Date.now()}
                   id={review.id}
                   name={review.name}
                   location={review.location}
@@ -41,7 +42,7 @@ const ReviewsSection = () => {
       </section>
       <section className="w-full bg-blue-300 p-6 py-10">
         <Container className="flex flex-row-reverse justify-between items-center max-[900px]:flex-col">
-          <h2 className="p-6 max-w-2xl text-black text-5xl font-medium max-md:text-3xl max-md:py-2 ">
+          <h2 className="p-6 max-w-2xl text-black text-5xl font-medium max-md:text-3xl max-md:text-center max-md:py-2 ">
             What Our Professionals Say About Us❤️
           </h2>
           <Carousel
@@ -51,6 +52,7 @@ const ReviewsSection = () => {
             <CarouselContent>
               {CustomerReviews.map((review: CustomerReview) => (
                 <ReviewCard
+                  key={review.id + Date.now()}
                   id={review.id}
                   name={review.name}
                   rating={review.rating}

@@ -15,7 +15,7 @@ export default function ReviewCard(props: Review) {
         <Card className="h-80 flex flex-col overflow-hidden gap-0">
           <CardContent className="flex-1 mt-4 py-0">
             <div
-              className={`text-xl leading-relaxed text-gray-800 ${isLongReview ? 'line-clamp-4' : ''}`}
+              className={`text-xl leading-relaxed max-sm:text-[15px] text-gray-800 ${isLongReview ? 'line-clamp-4' : ''}`}
             >
               {review}
             </div>
@@ -24,7 +24,7 @@ export default function ReviewCard(props: Review) {
 
           <CardFooter className="flex items-start flex-col py-0">
             <span>{stars}</span>
-            <span className="font-bold">{name}</span>
+            <span className="font-bold max-sm:text-sm">{name}</span>
             {'location' in props && (
               <span className="text-sm text-gray-500">{props.location}</span>
             )}
