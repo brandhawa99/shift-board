@@ -6,11 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
+import { webfontDownload } from 'vite-plugin-webfont-dl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
   plugins: [
+    webfontDownload(),
     ViteImageOptimizer({
       webp: {
         quality: 40,
