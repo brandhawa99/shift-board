@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from './ui/carousel'
-import type { CustomerReview, FacilityReview } from '@/mocks/reviews'
+import type { CustomerReview, FacilityReview } from '@/types/index'
 import { CustomerReviews, FacilityReviews } from '@/mocks/reviews'
 
 const ReviewsSection = () => {

@@ -1,26 +1,5 @@
+import type { Shift } from '@/types/index'
 import { generateRandomFutureDate } from '@/lib/mock-data'
-
-export type Shift = {
-  id: string
-  facilityName: string
-  role:
-    | 'CNA'
-    | 'RN'
-    | 'MA'
-    | 'CPT'
-    | 'LPN'
-    | 'NP'
-    | 'CG'
-    | 'ORRN'
-    | 'PT'
-    | 'CK'
-    | 'EVS'
-    | 'MISC'
-  location: { city: string; state: string }
-  startTime: number
-  hourlyRate: number
-  status: 'available' | 'claimed' | 'pending' | 'filled'
-}
 
 export const mockShifts: Array<Shift> = [
   {

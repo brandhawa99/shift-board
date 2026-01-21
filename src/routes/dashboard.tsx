@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import type { Shift } from '@/mocks/shifts'
+import type { Shift } from '@/types/index'
 import { Container } from '@/components/Container'
 import { columns } from '@/components/Columns'
 import DataTable from '@/components/DataTable'

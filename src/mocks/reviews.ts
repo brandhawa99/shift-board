@@ -1,14 +1,4 @@
-interface BaseReview {
-  id: number
-  name: string
-  review: string
-  rating: number
-}
-export interface FacilityReview extends BaseReview {
-  location: string
-}
-export interface CustomerReview extends BaseReview {}
-export type Review = FacilityReview | CustomerReview
+import type { CustomerReview, FacilityReview } from '@/types'
 
 let reviewId = 1
 

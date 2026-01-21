@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from './ui/dialog'
 import { Button } from './ui/button'
-import type { Review } from '@/mocks/reviews'
+import type { Review } from '@/types/index'
 
 export type ReviewPopUpProps = Review & {
   isLong: boolean

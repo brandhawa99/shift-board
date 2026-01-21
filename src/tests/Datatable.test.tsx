@@ -6,7 +6,7 @@ import {
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-import type { Shift } from '@/mocks/shifts'
+import type { Shift } from '@/types/index'
 import DataTable from '@/components/DataTable'
 import { ActionCell } from '@/components/TableComponents'
 import '@testing-library/jest-dom/vitest'

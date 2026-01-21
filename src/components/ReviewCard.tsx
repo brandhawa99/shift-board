@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter } from './ui/card'
 import { CarouselItem } from './ui/carousel'
 import ReviewPopup from './ReviewPopup'
-import type { Review } from '@/mocks/reviews'
+import type { Review } from '@/types/index'
 
 export default function ReviewCard(props: Review) {
   const { review, name, rating } = props

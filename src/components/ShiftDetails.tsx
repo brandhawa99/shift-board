@@ -4,7 +4,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from './ui/dialog'
-import type { Shift } from '@/mocks/shifts'
+import type { Shift } from '@/types/index'
 import type { Dispatch, SetStateAction } from 'react'
 
 interface ShiftDetailsProps {

@@ -5,7 +5,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { memo, useMemo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
+import ShiftDetails from './ShiftDetails'
 import {
   Table,
   TableBody,
@@ -14,16 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from './ui/dialog'
+import { Skeleton } from './ui/skeleton' // Assume standard shadcn skeleton
 import DataFilter from './DataFilter'
-import type { ColumnDef, RowData } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table'
 import type { JSX } from 'react'
-import type { Shift } from '@/mocks/shifts'
+import type { Shift } from '@/types/index'
 
 interface DataTableProps<TData = Shift, TValue = any> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -32,46 +28,32 @@ interface DataTableProps<TData = Shift, TValue = any> {
   updateShiftToPending: (id: Shift['id']) => void
 }
 
-interface ColumnFilter {
-  id: string
-  value: unknown
-}
-
-type ColumnFiltersState = Array<ColumnFilter>
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    showShiftDetails: (shift: TData) => void
-    updateStatusToPending: (id: Shift['id']) => void
-  }
-}
-
 function DataTable<TData extends Shift, TValue>({
   columns,
   data,
   isLoading,
   updateShiftToPending,
 }: DataTableProps<TData, TValue>) {
-  const tableData = useMemo(
-    () => (isLoading ? (Array(11).fill({}) as Array<TData>) : data),
-    [data, isLoading],
+  const [selectedShift, setSelectedShift] = useState<Shift | null>(null)
+
+  const showShiftDetails = useCallback(
+    (shift: TData) => setSelectedShift(shift),
+    [],
+  )
+  const updateStatusToPendingCallback = useCallback(
+    (id: string) => updateShiftToPending(id),
+    [updateShiftToPending],
   )
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [selectedShift, setSelectedShift] = useState<Shift | null>(null)
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
-    state: {
-      columnFilters,
-    },
-    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    //
     meta: {
-      showShiftDetails: (shift: Shift) => setSelectedShift(shift),
-      updateStatusToPending: (id: Shift['id']) => updateShiftToPending(id),
+      showShiftDetails,
+      updateStatusToPending: updateStatusToPendingCallback,
     },
   })
 
@@ -83,50 +65,59 @@ function DataTable<TData extends Shift, TValue>({
       />
       <div className="overflow-hidden rounded-md border">
         <Table>
-          <TableHeader className="bg-gray-200 max-md:hidden">
+          <TableHeader className="bg-gray-100 max-md:hidden">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              Array.from({ length: 11 }).map((_, i) => (
+                <TableRow
+                  key={`skeleton-${i}`}
+                  className="flex flex-col md:table-row py-4 md:py-0"
+                >
+                  {columns.map((_, j) => (
+                    <TableCell
+                      key={`cell-${j}`}
+                      className="md:table-cell py-2 md:py-4"
+                    >
+                      <Skeleton className="h-4 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  // 1. Change to flex-col on mobile, back to table-row on desktop
-                  className="flex flex-col md:table-row border-b md:border-none py-4 md:py-0"
+                  className="max-md:flex max-md:flex-col max-md:border-b max-md:p-4"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      // 2. Space cells vertically on mobile, restore cell layout on desktop
-                      className="flex justify-between items-center md:table-cell py-1.5 md:py-4"
+                      className="max-md:flex max-md:justify-between max-md:border-none max-md:py-2"
                     >
-                      {/* 3. Show Label on mobile only */}
-                      <span className="font-medium text-muted-foreground md:hidden mr-2">
-                        {flexRender(
-                          cell.column.columnDef.header,
-                          table.getHeaderGroups()[0].headers[0].getContext(),
-                        )}
-                        {/* {cell.column.columnDef.header?.toString()} */}
+                      {/* 2. The Mobile Label */}
+                      <span className="md:hidden font-semibold text-xs uppercase tracking-wider text-muted-foreground mr-4">
+                        {cell.column.columnDef.meta?.label}
                       </span>
+                      {/* 2. The Dotted/Dashed Leader */}
+                      <div className="md:hidden grow border-b border-dashed border-muted-foreground/30 mx-2 mb-2" />
 
-                      <div className="text-right md:text-left">
+                      {/* 3. The Cell Value */}
+                      <div className="max-md:text-right">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
@@ -142,44 +133,16 @@ function DataTable<TData extends Shift, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No results found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-        {/* Move to own file */}
-        <Dialog
-          open={!!selectedShift}
-          onOpenChange={() => setSelectedShift(null)}
-        >
-          <DialogContent>
-            <DialogTitle>Congrats On Getting Booked</DialogTitle>
-            <DialogDescription asChild>
-              <div className="py-4">
-                <p>
-                  <strong>🏥Facility:</strong> {selectedShift?.facilityName}
-                </p>
-                <p>
-                  <strong>📍Location:</strong> {selectedShift?.location.city}{' '}
-                  {selectedShift?.location.state}
-                </p>
-                <p>
-                  <strong>💰Rate:</strong> ${selectedShift?.hourlyRate}/hr
-                </p>
-                <p>
-                  <strong>✨Status:</strong> {selectedShift?.status}
-                </p>
-                <p>
-                  <strong>📞Contact:</strong> 123-123-1234
-                </p>
-                <p>
-                  <strong>🤐Access Code:</strong> 123-123-1234
-                </p>
-              </div>
-            </DialogDescription>
-          </DialogContent>
-        </Dialog>
+        <ShiftDetails
+          selectedShift={selectedShift}
+          setSelectedShift={setSelectedShift}
+        />
       </div>
     </>
   )

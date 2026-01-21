@@ -1,5 +1,4 @@
 import { ArrowUpDown } from 'lucide-react'
-import { Skeleton } from './ui/skeleton'
 import {
   ActionCell,
   DateCell,
@@ -10,52 +9,45 @@ import {
   StatusCell,
 } from './TableComponents'
 import { Button } from './ui/button'
-import type { ColumnDef, RowData } from '@tanstack/react-table'
-import type { Shift } from '@/mocks/shifts'
-
-declare module '@tanstack/react-table' {
-  interface TableMeta<TData extends RowData> {
-    isLoading?: boolean
-  }
-}
-
-const withSkeleton = (Component: React.FC<any>) => {
-  return (props: any) => {
-    const isLoading = props.table.options.meta?.isLoading
-    if (isLoading || Object.keys(props.row.original || {}).length === 0) {
-      return <Skeleton />
-    }
-    return <Component {...props} />
-  }
-}
+import type { ColumnDef, TableMeta } from '@tanstack/react-table'
+import type { Shift } from '@/types/index'
 
 export const columns: Array<ColumnDef<Shift>> = [
   {
     accessorKey: 'facilityName',
     header: 'Facility Name',
-    cell: withSkeleton(({ row }) => (
+    cell: ({ row }) => (
       <FacilityCell facilityName={row.original.facilityName} />
-    )),
+    ),
+    meta: {
+      label: 'Facility Name',
+    },
   },
   {
     accessorKey: 'role',
     header: 'Role',
-    cell: withSkeleton(({ row }) => {
-      ;<RoleCell role={row.original.role} />
-    }),
+    cell: ({ row }) => {
+      return <RoleCell role={row.original.role} />
+    },
+    meta: {
+      label: 'Role',
+    },
   },
   {
     accessorKey: 'location',
     header: 'Location',
-    cell: withSkeleton(({ row }) => {
+    cell: ({ row }) => {
       const { city, state } = row.original.location
       return <LocationCell city={city} state={state} />
-    }),
+    },
+    meta: {
+      label: 'Location',
+    },
   },
   {
     accessorKey: 'startTime',
     header: 'Date',
-    cell: withSkeleton(({ row }) => {
+    cell: ({ row }) => {
       const timestamp = row.original.startTime
       const date = new Date(timestamp)
 
@@ -70,7 +62,10 @@ export const columns: Array<ColumnDef<Shift>> = [
         minute: '2-digit',
       })
       return <DateCell date={dateString} time={timeString} />
-    }),
+    },
+    meta: {
+      label: 'Date',
+    },
   },
   {
     accessorKey: 'hourlyRate',
@@ -90,18 +85,20 @@ export const columns: Array<ColumnDef<Shift>> = [
         </>
       )
     },
-    cell: withSkeleton(({ row }) => (
-      <RateCell rate={row.original.hourlyRate.toFixed(2)} />
-    )),
+    cell: ({ row }) => <RateCell rate={row.original.hourlyRate.toFixed(2)} />,
+    meta: {
+      label: 'Hourly Rate',
+    },
   },
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: withSkeleton(({ row }) => {
+    cell: ({ row }) => {
       return <StatusCell status={row.original.status} />
-    }),
+    },
 
     meta: {
+      label: 'Status',
       filterVariant: 'range',
     },
   },
@@ -109,11 +106,11 @@ export const columns: Array<ColumnDef<Shift>> = [
     header: 'Actions',
     id: 'actions',
     cell: ({ row, table }) => {
-      const isLoading = table.options.meta?.isLoading
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      return <ActionCell row={row.original} table={table} />
+      const tableMeta = table.options.meta as TableMeta<Shift>
+      return <ActionCell row={row.original} tableMeta={tableMeta} />
+    },
+    meta: {
+      label: 'Actions',
     },
   },
 ]

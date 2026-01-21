@@ -1,6 +1,6 @@
 import { Button } from './ui/button'
-import type { Shift } from '@/mocks/shifts'
-import type { Table } from '@tanstack/react-table'
+import type { Shift } from '@/types/index'
+import type { TableMeta } from '@tanstack/react-table'
 
 export const FacilityCell = ({ facilityName }: { facilityName: string }) => {
   return <div>{facilityName}</div>
@@ -51,7 +51,7 @@ export const StatusCell = ({ status }: { status: string }) => {
     'bg-gray-100 text-gray-800'
   return (
     <span
-      className={`px-2 py-1 rounded-full border text-xs font-medium ${currentStyle}`}
+      className={`px-2 py-1 rounded-full border text-xs font-medium flex max-w-20 items-center justify-center ${currentStyle}`}
     >
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
@@ -65,18 +65,18 @@ const statusButtonStyles = {
 }
 export const ActionCell = ({
   row,
-  table,
+  tableMeta,
 }: {
   row: Shift
-  table: Table<Shift>
+  tableMeta: TableMeta<Shift>
 }) => {
   const { status, id } = row
 
   const handleAction = () => {
     if (status === 'available') {
-      table.options.meta!.updateStatusToPending(id)
+      tableMeta.updateStatusToPending(id)
     } else if (status == 'claimed') {
-      table.options.meta!.showShiftDetails(row)
+      tableMeta.showShiftDetails(row)
     }
   }
 
@@ -84,7 +84,7 @@ export const ActionCell = ({
     <Button
       onClick={handleAction}
       variant={status === 'filled' ? 'secondary' : 'default'}
-      className={statusButtonStyles[status]}
+      className={`${statusButtonStyles[status]} min-w-30`}
       disabled={status === 'filled' || status === 'pending'}
     >
       {status === 'available' && 'Claim Shift'}
