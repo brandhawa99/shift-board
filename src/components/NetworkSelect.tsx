@@ -1,7 +1,14 @@
-import { memo } from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
-import type { Dispatch, SetStateAction } from "react";
-
+import { memo } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
+import type { Dispatch, SetStateAction } from 'react'
 
 type NetworkSelectProps = {
   setNetwork: Dispatch<SetStateAction<string>>

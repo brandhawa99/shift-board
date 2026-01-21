@@ -10,13 +10,14 @@ import type { Shift } from '@/mocks/shifts'
 import DataTable from '@/components/DataTable'
 import { ActionCell } from '@/components/TableComponents'
 import '@testing-library/jest-dom/vitest'
+import { generateRandomFutureDate } from '@/lib/mock-data'
 
 const testColumns = [
   {
     accessorKey: 'action',
     header: 'Action',
     cell: ({ row, table }: { row: any; table: any }) => (
-      <ActionCell row={row.original} table={table} />
+      <ActionCell row={row.original} tableMeta={table.options.meta} />
     ),
   },
 ]
@@ -52,7 +53,7 @@ const mockShifts: Array<Shift> = [
     status: 'available',
     location: { city: 'van', state: 'ca' },
     role: 'CNA',
-    startTime: '',
+    startTime: generateRandomFutureDate(),
     hourlyRate: 0,
   },
   {
@@ -61,7 +62,7 @@ const mockShifts: Array<Shift> = [
     status: 'claimed',
     location: { city: 'van', state: 'ca' },
     role: 'CNA',
-    startTime: '',
+    startTime: generateRandomFutureDate(),
     hourlyRate: 0,
   },
 ]

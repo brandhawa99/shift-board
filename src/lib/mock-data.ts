@@ -1,4 +1,4 @@
-export const generateRandomFutureDate = (maxDaysOut: number = 14) => {
+export const generateRandomFutureDate = (maxDaysOut: number = 14): number => {
   const now = new Date()
 
   const randomDaysInMs = Math.floor(

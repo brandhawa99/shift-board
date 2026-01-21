@@ -34,7 +34,7 @@ function StatusFilter({ status }: { status: any }) {
         status?.setFilterValue(value === 'all' ? '' : value)
       }
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-45">
         <SelectValue placeholder="Filter Status" />
       </SelectTrigger>
       <SelectContent>

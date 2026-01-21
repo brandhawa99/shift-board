@@ -1,5 +1,6 @@
 # Shift Board Health
-<img width="1024" height="768" alt="shift-board-pi-vercel-app-1024x768desktop-81f07d" src="https://github.com/user-attachments/assets/a7a6373b-7a48-4973-94cd-f2f286fdf609" />
+
+![Image of Dashboard](https://github.com/user-attachments/assets/a7a6373b-7a48-4973-94cd-f2f286fdf609)
 
 ## From Bug Fix to Marketplace Prototype
 
@@ -15,11 +16,19 @@ Live Demo: https://shift-board-pi.vercel.app/
 ## Tech Stack
 
 - **TypeScript & React:** to ensure type-safety across the shift-booking flow and prevent errors that can break a nurse's flow
-- **TanStack Query:** used to manage "server state data"
-- **TanStack Table:** used to handle the shifts view and allow for complex filtering/sorting that professionals need to find the right job for them
+- **TanStack Query:** to manage "server state data"
+- **TanStack Table:** to handle the shifts view and allow for complex filtering/sorting that professionals need to find the right job for them
 - **Shadcn UI & Tailwind CSS:** Used for high-velocity styling. I optimized this project for fast development with sacrificing accessibility
+- **Bun:** Chosen for its unreasonable speed
 
 ## DevOps, Portability and Testing
 
 - **Testing:** implemented tests on critical interactions to ensure nurses see the correct shift data
 - **Dockerization:** While the app is deployed on Vercel, the app is **Dockerized** to ensure its portability (I am in the eager to learn ECS, and Terraform group)
+
+THINGS TO ADD
+
+- HOW TO SETUP LOCALLY
+
+- Think of other things to add
+  debounce in facility filter
