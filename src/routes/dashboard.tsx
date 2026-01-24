@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import type { Shift } from '@/types/index'
 import { Container } from '@/components/Container'
 import { columns } from '@/components/Columns'
@@ -44,12 +45,20 @@ function RouteComponent() {
     queryClient.setQueryData(
       ['shifts', network],
       (oldData: Array<Shift> | undefined) => {
-        return oldData?.map((shift) =>
-          shift.id === id ? { ...shift, status: 'pending' as const } : shift,
-        )
+        return oldData?.map((shift) => {
+          if (shift.id === id) {
+            toast.success(
+              `Shift at ${shift.facilityName} in ${shift.location.city} is now pending!`,
+            )
+            return { ...shift, status: 'pending' }
+          } else {
+            return shift
+          }
+        })
       },
     )
   }
+
   return (
     <div className="flex flex-col w-full bg-blue-200">
       <div className="w-full border-b-black">
