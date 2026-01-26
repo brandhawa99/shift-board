@@ -20,7 +20,7 @@ export type Shift = {
   status: shiftStatus
 }
 type shiftStatus = 'available' | 'claimed' | 'pending' | 'filled'
-type shiftRole =
+export type shiftRole =
   | 'CNA'
   | 'RN'
   | 'MA'

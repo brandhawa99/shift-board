@@ -10,17 +10,11 @@ export const RoleCell = ({ role }: { role: string }) => {
   return <div>{role}</div>
 }
 
-export const LocationCell = ({
-  city,
-  state,
-}: {
-  city: string
-  state: string
-}) => {
+export const LocationCell = (location: Shift['location']) => {
   return (
     <div className="flex text-center">
       <div>
-        {city},&nbsp;{state}
+        {location.city},&nbsp;{location.state}
       </div>
     </div>
   )

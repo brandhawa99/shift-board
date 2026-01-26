@@ -1,4 +1,4 @@
-import { LucideGithub } from 'lucide-react'
+import { siGithub } from 'simple-icons'
 
 const Footer = () => {
   return (
@@ -7,11 +7,19 @@ const Footer = () => {
       <div>Made By: Baltej Randhawa</div>
       <div>
         <a
-          className="flex"
+          className="flex gap-2 items-center"
           target="_blank"
           href="https://github.com/brandhawa99/shift-board"
         >
-          <LucideGithub />
+          <svg
+            role="img"
+            viewBox="0 0 24 24"
+            fill={'#181717'}
+            style={{ width: '20px', height: '20px' }}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d={siGithub.path} />
+          </svg>
           Repo Link
         </a>
         <a
