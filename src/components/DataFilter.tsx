@@ -30,7 +30,7 @@ export default function DataFilter<TData, TValue>({
   }
 
   return (
-    <div className="flex items-center py-4 gap-2">
+    <div className="flex items-center py-4 gap-2 flex-wrap">
       <FacilityFilter facilityColumn={facilityColumn} />
       <StatusFilter status={statusColumn} />
       <RoleFilter roleColumn={roleColumn} />
@@ -91,7 +91,13 @@ function FacilityFilter<TData, TValue>({
 }: {
   facilityColumn: Column<TData, TValue>
 }) {
+  const columnValue = (facilityColumn.getFilterValue() as string) || ''
   const [value, setValue] = useState('')
+
+  useEffect(() => {
+    setValue(columnValue)
+  }, [columnValue])
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       facilityColumn.setFilterValue(value)
@@ -103,7 +109,9 @@ function FacilityFilter<TData, TValue>({
     <div>
       <div>
         <Input
+          className="min-w-12"
           placeholder="Facility Name"
+          value={value}
           onChange={(e) => setValue(e.target.value)}
         />
       </div>

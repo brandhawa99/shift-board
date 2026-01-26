@@ -29,6 +29,7 @@ export const columns: Array<ColumnDef<Shift>> = [
     cell: ({ row }) => {
       return <RoleCell role={row.original.role} />
     },
+    filterFn: 'equalsString',
     meta: {
       label: 'Role',
     },
