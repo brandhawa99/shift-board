@@ -9,6 +9,7 @@ describe('Review', () => {
     render(
       <Carousel>
         <ReviewCard
+          id={1}
           location="vancouver"
           name={'hello'}
           rating={2}
@@ -25,6 +26,7 @@ describe('Review', () => {
     render(
       <Carousel>
         <ReviewCard
+          id={2}
           location="city"
           name={'hello'}
           rating={2}

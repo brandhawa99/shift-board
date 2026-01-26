@@ -1,0 +1,56 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from './ui/dialog'
+import type { Shift } from '@/types/index'
+import type { Dispatch, SetStateAction } from 'react'
+
+interface ShiftDetailsProps {
+  selectedShift: Shift | null
+  setSelectedShift: Dispatch<SetStateAction<Shift | null>>
+}
+
+const ShiftDetails = ({
+  selectedShift,
+  setSelectedShift,
+}: ShiftDetailsProps) => {
+  return (
+    <Dialog open={!!selectedShift} onOpenChange={() => setSelectedShift(null)}>
+      <DialogDescription asChild>
+        <DialogContent>
+          {selectedShift && (
+            <>
+              <DialogTitle>Congrats on Getting Booked</DialogTitle>
+              <div className="py-4">
+                <p>
+                  <strong>🏥Facility:</strong> {selectedShift.facilityName}
+                </p>
+                <p>
+                  <strong>📍Location:</strong> {selectedShift.location.city}{' '}
+                  {selectedShift.location.state}
+                </p>
+                <p>
+                  <strong>💰Rate:</strong> ${selectedShift.hourlyRate}/hr
+                </p>
+                <p>
+                  <strong>✨Status:</strong> {selectedShift.status}
+                </p>
+                {/* Extra fake data that would be there for accepted professionals*/}
+                <p>
+                  <strong>📞Contact:</strong> 123-123-1234
+                </p>
+                <p>
+                  <strong>🤐Access Code:</strong> 123-123-1234
+                </p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </DialogDescription>
+    </Dialog>
+  )
+}
+
+export default ShiftDetails

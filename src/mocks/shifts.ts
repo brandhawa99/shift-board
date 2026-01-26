@@ -1,26 +1,5 @@
-export type Shift = {
-  id: string
-  facilityName: string
-  role:
-    | 'CNA'
-    | 'RN'
-    | 'MA'
-    | 'CPT'
-    | 'LPN'
-    | 'NP'
-    | 'CG'
-    | 'ORRN'
-    | 'PT'
-    | 'CK'
-    | 'EVS'
-    | 'MISC'
-  location: { city: string; state: string }
-  startTime: string
-  hourlyRate: number
-  status: 'available' | 'claimed' | 'pending' | 'filled'
-}
-const now = new Date()
-const st = now.toISOString()
+import type { Shift } from '@/types/index'
+import { generateRandomFutureDate } from '@/lib/mock-data'
 
 export const mockShifts: Array<Shift> = [
   {
@@ -28,7 +7,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'General Hospital',
     role: 'RN',
     location: { city: 'Los Angeles', state: 'CA' },
-    startTime: st,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 55,
     status: 'available',
   },
@@ -37,7 +16,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'General Hospital 2',
     role: 'RN',
     location: { city: 'Vancouver', state: 'BC' },
-    startTime: st + 1000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 56,
     status: 'pending',
   },
@@ -46,7 +25,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'General Hospital 3',
     role: 'CNA',
     location: { city: 'Burnaby', state: 'BC' },
-    startTime: st + 2000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 38,
     status: 'available',
   },
@@ -55,7 +34,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'City Medical Center',
     role: 'LPN',
     location: { city: 'Seattle', state: 'WA' },
-    startTime: st + 3000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 45,
     status: 'claimed',
   },
@@ -64,7 +43,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Downtown Clinic',
     role: 'MA',
     location: { city: 'San Diego', state: 'CA' },
-    startTime: st + 4000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 32,
     status: 'filled',
   },
@@ -73,7 +52,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Valley Health',
     role: 'RN',
     location: { city: 'San Jose', state: 'CA' },
-    startTime: st + 5000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 58,
     status: 'available',
   },
@@ -82,7 +61,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Valley Health 2',
     role: 'NP',
     location: { city: 'Oakland', state: 'CA' },
-    startTime: st + 6000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 75,
     status: 'pending',
   },
@@ -91,7 +70,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Sunrise Hospital',
     role: 'CPT',
     location: { city: 'Phoenix', state: 'AZ' },
-    startTime: st + 7000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 42,
     status: 'available',
   },
@@ -100,7 +79,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Sunrise Hospital 2',
     role: 'RN',
     location: { city: 'Tempe', state: 'AZ' },
-    startTime: st + 8000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 57,
     status: 'claimed',
   },
@@ -109,7 +88,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Lakeside Care',
     role: 'CG',
     location: { city: 'Minneapolis', state: 'MN' },
-    startTime: st + 9000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 28,
     status: 'available',
   },
@@ -118,7 +97,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Lakeside Care 2',
     role: 'EVS',
     location: { city: 'St Paul', state: 'MN' },
-    startTime: st + 10000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 22,
     status: 'filled',
   },
@@ -127,7 +106,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Northview Hospital',
     role: 'ORRN',
     location: { city: 'Denver', state: 'CO' },
-    startTime: st + 11000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 65,
     status: 'available',
   },
@@ -136,7 +115,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Northview Hospital 2',
     role: 'RN',
     location: { city: 'Boulder', state: 'CO' },
-    startTime: st + 12000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 60,
     status: 'pending',
   },
@@ -145,7 +124,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Pacific Medical',
     role: 'PT',
     location: { city: 'Portland', state: 'OR' },
-    startTime: st + 13000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 52,
     status: 'available',
   },
@@ -154,7 +133,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Pacific Medical 2',
     role: 'MA',
     location: { city: 'Eugene', state: 'OR' },
-    startTime: st + 14000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 34,
     status: 'claimed',
   },
@@ -163,7 +142,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Bay Area Health',
     role: 'RN',
     location: { city: 'San Mateo', state: 'CA' },
-    startTime: st + 15000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 59,
     status: 'available',
   },
@@ -172,7 +151,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Bay Area Health 2',
     role: 'LPN',
     location: { city: 'Redwood City', state: 'CA' },
-    startTime: st + 16000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 46,
     status: 'pending',
   },
@@ -181,7 +160,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Metro Hospital',
     role: 'RN',
     location: { city: 'New York', state: 'NY' },
-    startTime: st + 17000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 62,
     status: 'filled',
   },
@@ -190,7 +169,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Metro Hospital 2',
     role: 'CNA',
     location: { city: 'Brooklyn', state: 'NY' },
-    startTime: st + 18000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 40,
     status: 'available',
   },
@@ -199,7 +178,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Metro Hospital 3',
     role: 'EVS',
     location: { city: 'Queens', state: 'NY' },
-    startTime: st + 19000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 24,
     status: 'claimed',
   },
@@ -208,7 +187,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Harborview',
     role: 'RN',
     location: { city: 'Seattle', state: 'WA' },
-    startTime: st + 20000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 61,
     status: 'available',
   },
@@ -217,7 +196,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Harborview 2',
     role: 'ORRN',
     location: { city: 'Tacoma', state: 'WA' },
-    startTime: st + 21000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 68,
     status: 'pending',
   },
@@ -226,7 +205,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Summit Health',
     role: 'NP',
     location: { city: 'Salt Lake City', state: 'UT' },
-    startTime: st + 22000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 78,
     status: 'available',
   },
@@ -235,7 +214,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Summit Health 2',
     role: 'PT',
     location: { city: 'Provo', state: 'UT' },
-    startTime: st + 23000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 50,
     status: 'filled',
   },
@@ -244,7 +223,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Cedar Clinic',
     role: 'MA',
     location: { city: 'Reno', state: 'NV' },
-    startTime: st + 24000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 33,
     status: 'available',
   },
@@ -253,7 +232,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Cedar Clinic 2',
     role: 'CPT',
     location: { city: 'Carson City', state: 'NV' },
-    startTime: st + 25000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 41,
     status: 'pending',
   },
@@ -262,7 +241,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Riverbend Hospital',
     role: 'RN',
     location: { city: 'Boise', state: 'ID' },
-    startTime: st + 26000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 54,
     status: 'available',
   },
@@ -271,7 +250,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Riverbend Hospital 2',
     role: 'LPN',
     location: { city: 'Meridian', state: 'ID' },
-    startTime: st + 27000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 44,
     status: 'claimed',
   },
@@ -280,7 +259,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Prairie Health',
     role: 'CG',
     location: { city: 'Fargo', state: 'ND' },
-    startTime: st + 28000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 29,
     status: 'available',
   },
@@ -289,7 +268,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Prairie Health 2',
     role: 'MISC',
     location: { city: 'Bismarck', state: 'ND' },
-    startTime: st + 29000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 26,
     status: 'filled',
   },
@@ -298,7 +277,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Evergreen Medical',
     role: 'RN',
     location: { city: 'Spokane', state: 'WA' },
-    startTime: st + 30000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 56,
     status: 'available',
   },
@@ -307,7 +286,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Evergreen Medical 2',
     role: 'EVS',
     location: { city: 'Yakima', state: 'WA' },
-    startTime: st + 31000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 23,
     status: 'pending',
   },
@@ -316,7 +295,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Golden State Clinic',
     role: 'PT',
     location: { city: 'Sacramento', state: 'CA' },
-    startTime: st + 32000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 51,
     status: 'available',
   },
@@ -325,7 +304,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Golden State Clinic 2',
     role: 'RN',
     location: { city: 'Stockton', state: 'CA' },
-    startTime: st + 33000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 57,
     status: 'claimed',
   },
@@ -334,7 +313,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Mission Hospital',
     role: 'ORRN',
     location: { city: 'San Antonio', state: 'TX' },
-    startTime: st + 34000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 66,
     status: 'available',
   },
@@ -343,7 +322,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Mission Hospital 2',
     role: 'RN',
     location: { city: 'Austin', state: 'TX' },
-    startTime: st + 35000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 60,
     status: 'pending',
   },
@@ -352,7 +331,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Mission Hospital 3',
     role: 'CNA',
     location: { city: 'Round Rock', state: 'TX' },
-    startTime: st + 36000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 39,
     status: 'available',
   },
@@ -361,7 +340,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Blue Ridge Health',
     role: 'LPN',
     location: { city: 'Asheville', state: 'NC' },
-    startTime: st + 37000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 43,
     status: 'filled',
   },
@@ -370,7 +349,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Blue Ridge Health 2',
     role: 'RN',
     location: { city: 'Boone', state: 'NC' },
-    startTime: st + 38000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 55,
     status: 'available',
   },
@@ -379,7 +358,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Pinecrest Medical',
     role: 'MA',
     location: { city: 'Orlando', state: 'FL' },
-    startTime: st + 39000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 31,
     status: 'pending',
   },
@@ -388,7 +367,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Pinecrest Medical 2',
     role: 'CPT',
     location: { city: 'Tampa', state: 'FL' },
-    startTime: st + 40000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 40,
     status: 'available',
   },
@@ -397,7 +376,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Atlantic Health',
     role: 'RN',
     location: { city: 'Miami', state: 'FL' },
-    startTime: st + 41000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 58,
     status: 'claimed',
   },
@@ -406,7 +385,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Atlantic Health 2',
     role: 'NP',
     location: { city: 'Fort Lauderdale', state: 'FL' },
-    startTime: st + 42000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 80,
     status: 'available',
   },
@@ -415,7 +394,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Keystone Hospital',
     role: 'RN',
     location: { city: 'Pittsburgh', state: 'PA' },
-    startTime: st + 43000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 59,
     status: 'pending',
   },
@@ -424,7 +403,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Keystone Hospital 2',
     role: 'EVS',
     location: { city: 'Erie', state: 'PA' },
-    startTime: st + 44000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 21,
     status: 'available',
   },
@@ -433,7 +412,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Lone Star Health',
     role: 'PT',
     location: { city: 'Dallas', state: 'TX' },
-    startTime: st + 45000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 53,
     status: 'filled',
   },
@@ -442,7 +421,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Lone Star Health 2',
     role: 'RN',
     location: { city: 'Plano', state: 'TX' },
-    startTime: st + 46000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 56,
     status: 'available',
   },
@@ -451,7 +430,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Cascadia Care',
     role: 'CG',
     location: { city: 'Bellingham', state: 'WA' },
-    startTime: st + 47000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 27,
     status: 'pending',
   },
@@ -460,7 +439,7 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Cascadia Care 2',
     role: 'MISC',
     location: { city: 'Everett', state: 'WA' },
-    startTime: st + 48000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 25,
     status: 'available',
   },
@@ -469,27 +448,8 @@ export const mockShifts: Array<Shift> = [
     facilityName: 'Cascadia Care 3',
     role: 'RN',
     location: { city: 'Olympia', state: 'WA' },
-    startTime: st + 49000,
+    startTime: generateRandomFutureDate(),
     hourlyRate: 57,
     status: 'filled',
   },
 ]
-
-export const getShifts = async () => {
-  await new Promise((r) => setTimeout(r, 800))
-  return mockShifts
-}
-
-export const getShiftsSlow = async () => {
-  await new Promise((r) => setTimeout(r, 3000))
-  return mockShifts
-}
-export const noShifts = async () => {
-  await new Promise((r) => setTimeout(r, 800))
-  return []
-}
-
-export const getShiftsError = async () => {
-  await new Promise((r) => setTimeout(r, 800))
-  throw new Error('Failed to fetch shifts')
-}

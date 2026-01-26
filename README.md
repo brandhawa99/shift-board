@@ -1,25 +1,94 @@
 # Shift Board Health
-<img width="1024" height="768" alt="shift-board-pi-vercel-app-1024x768desktop-81f07d" src="https://github.com/user-attachments/assets/a7a6373b-7a48-4973-94cd-f2f286fdf609" />
 
-## From Bug Fix to Marketplace Prototype
+![Image of Dashboard](https://github.com/user-attachments/assets/a7a6373b-7a48-4973-94cd-f2f286fdf609)
 
-This project began with a specific observation of the Clipboard Health homepage: the "What Our Professionals Say About Us" carousel lacks 1-to-1 mapping between the user interaction and the expanded review.
-In a marketplace built on trust and reliability, even small UI friction points can impact a professional's confidence. I built this repo to:
+## Overview
 
-1. **Solve the interaction bug** using predictable state management.
+Shift Board Health is a production-grade frontend prototype inspired by a real interaction issue observed on the Clipboard Health homepage.
 
-2. **Expand the scope** into a shift-discovery dashboard to demonstrate React proficiency
+While reviewing the site, I noticed that the “What Our Professionals Say About Us” carousel did not consistently expand the review a user clicked (since fixed). The issue itself was minor—but in a healthcare staffing marketplace, even small UI inconsistencies can erode trust.
 
-Live Demo: https://shift-board-pi.vercel.app/
+Rather than treating this as a one-off bug, I used it as a starting point to explore how I would design, build, and scale a reliable shift-discovery experience for healthcare professionals.
 
-## Tech Stack
+**Live Demo**: <https://shift-board-pi.vercel.app/>
 
-- **TypeScript & React:** to ensure type-safety across the shift-booking flow and prevent errors that can break a nurse's flow
-- **TanStack Query:** used to manage "server state data"
-- **TanStack Table:** used to handle the shifts view and allow for complex filtering/sorting that professionals need to find the right job for them
-- **Shadcn UI & Tailwind CSS:** Used for high-velocity styling. I optimized this project for fast development with sacrificing accessibility
+## What This Project Demonstrates
 
-## DevOps, Portability and Testing
+This repository exists to demonstrate how I approach frontend engineering in a real marketplace context:
 
-- **Testing:** implemented tests on critical interactions to ensure nurses see the correct shift data
-- **Dockerization:** While the app is deployed on Vercel, the app is **Dockerized** to ensure its portability (I am in the eager to learn ECS, and Terraform group)
+Clear and predictable state management
+
+Scalable, modular React architecture
+
+Type-safe data flows for high-trust environments
+
+Product decisions that reduce friction for end users
+
+The result is a professional dashboard that simulates how clinicians browse, filter, and evaluate shifts.
+
+## Product Scope
+
+The application models a healthcare professional’s shift-discovery workflow:
+
+Browse a list of available shifts
+
+Filter and sort roles using meaningful criteria
+
+View consistent, unambiguous shift details
+
+Every interaction is designed to be explicit and predictable—optimizing for confidence over cleverness.
+
+## Technical Stack
+
+- **React + TypeScript**
+  Strict typing is enforced throughout the application to prevent state mismatches and reduce rework as the system scales.
+
+- **TanStack Query**
+  Used to model asynchronous server state in a way that mirrors real production data flows.
+
+- **TanStack Table**
+  Powers the shift table and supports complex sorting and filtering logic required for real job discovery.
+
+- **shadcn/ui + Tailwind CSS**
+  Enables rapid iteration while maintaining accessibility, consistency, and clean design constraints.
+
+- **Bun**
+  Chosen for its performance and fast local development feedback loop.
+
+## Reliability and Portability
+
+- **Testing**
+  Tests are implemented around critical interactions to ensure users always see the correct shift data.
+
+- **Dockerized**
+  Although deployed on Vercel, the application is fully Dockerized to ensure portability across environments.
+  (Actively expanding experience with ECS and Terraform to support production-scale infrastructure.)
+
+## Local Development
+
+### Clone the repository
+
+```bash
+git clone https://github.com/brandhawa99/shift-board.git
+```
+
+Install dependencies
+
+```bash
+bun install
+
+# start dev server
+bun run dev
+```
+
+Run with Docker
+
+```bash
+docker compose up
+```
+
+## Why This Project Exists
+
+This is not a UI clone.
+
+It is a practical exploration of how small frontend decisions compound in a healthcare staffing marketplace—and how to build interfaces that professionals can trust when the stakes are real.

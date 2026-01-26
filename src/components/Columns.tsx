@@ -1,5 +1,4 @@
 import { ArrowUpDown } from 'lucide-react'
-import { Skeleton } from './ui/skeleton'
 import {
   ActionCell,
   DateCell,
@@ -10,73 +9,48 @@ import {
   StatusCell,
 } from './TableComponents'
 import { Button } from './ui/button'
-import type { Shift } from '@/mocks/shifts'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, TableMeta } from '@tanstack/react-table'
+import type { Shift } from '@/types/index'
 
 export const columns: Array<ColumnDef<Shift>> = [
   {
     accessorKey: 'facilityName',
     header: 'Facility Name',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const facilityName = row.original?.facilityName
-      return <FacilityCell facilityName={facilityName} />
+    cell: ({ row }) => (
+      <FacilityCell facilityName={row.original.facilityName} />
+    ),
+    meta: {
+      label: 'Facility Name',
     },
   },
   {
     accessorKey: 'role',
     header: 'Role',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const role = row.original?.role
-      return <RoleCell role={role} />
+    cell: ({ row }) => {
+      return <RoleCell role={row.original.role} />
+    },
+    meta: {
+      label: 'Role',
     },
   },
   {
     accessorKey: 'location',
     header: 'Location',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const location = row.original?.location
-      const { city, state } = location
-
-      if (!city || !state) {
-        return <span className="text-muted-foreground">N/A</span>
-      }
-
+    cell: ({ row }) => {
+      const { city, state } = row.original.location
       return <LocationCell city={city} state={state} />
+    },
+    meta: {
+      label: 'Location',
     },
   },
   {
     accessorKey: 'startTime',
     header: 'Date',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
+    cell: ({ row }) => {
+      const timestamp = row.original.startTime
+      const date = new Date(timestamp)
 
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // redo if you want later so time doesn't update on any query key update
-      const date = new Date()
-      const randomDays = Math.floor(Math.random() * 20) + 1
-      date.setDate(date.getDate() + randomDays)
       const dateString = date.toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'long',
@@ -88,6 +62,9 @@ export const columns: Array<ColumnDef<Shift>> = [
         minute: '2-digit',
       })
       return <DateCell date={dateString} time={timeString} />
+    },
+    meta: {
+      label: 'Date',
     },
   },
   {
@@ -108,32 +85,20 @@ export const columns: Array<ColumnDef<Shift>> = [
         </>
       )
     },
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-      if (isLoading || Object.keys(row.original).length === 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const rate = row.original?.hourlyRate
-      if (!rate) {
-        return <span className="text-muted-foreground font-bold">N/A</span>
-      }
-      return <RateCell rate={rate.toFixed(2)} />
+    cell: ({ row }) => <RateCell rate={row.original.hourlyRate.toFixed(2)} />,
+    meta: {
+      label: 'Hourly Rate',
     },
   },
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      const status = row.original?.status
-      return <StatusCell status={status} />
+    cell: ({ row }) => {
+      return <StatusCell status={row.original.status} />
     },
+
     meta: {
+      label: 'Status',
       filterVariant: 'range',
     },
   },
@@ -141,11 +106,11 @@ export const columns: Array<ColumnDef<Shift>> = [
     header: 'Actions',
     id: 'actions',
     cell: ({ row, table }) => {
-      const isLoading = (table.options.meta as any)?.isLoading
-      if (isLoading || Object.keys(row.original).length == 0) {
-        return <Skeleton />
-      }
-      return <ActionCell row={row.original} table={table} />
+      const tableMeta = table.options.meta as TableMeta<Shift>
+      return <ActionCell row={row.original} tableMeta={tableMeta} />
+    },
+    meta: {
+      label: 'Actions',
     },
   },
 ]

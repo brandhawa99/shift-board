@@ -2,12 +2,10 @@ import { MoveRight } from 'lucide-react'
 import { Link, useLocation } from '@tanstack/react-router'
 import logo from '../images/health-checklist-svgrepo-com.svg'
 import logoColour from '../images/health-checklist-svgrepo-com-colour.svg'
-
 import { Button } from './ui/button'
 import { Container } from './Container'
 
 export default function Header() {
-  // based on route, show different header content
   const location = useLocation()
   const isDashboard = location.pathname === '/dashboard'
 

@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import type { Shift } from '@/mocks/shifts'
+import { toast } from 'sonner'
+import type { Shift } from '@/types/index'
 import { Container } from '@/components/Container'
 import { columns } from '@/components/Columns'
 import DataTable from '@/components/DataTable'
@@ -10,7 +11,7 @@ import {
   getShiftsError,
   getShiftsSlow,
   noShifts,
-} from '@/mocks/shifts'
+} from '@/lib/fake-api'
 import NetworkSelect from '@/components/NetworkSelect'
 
 export const Route = createFileRoute('/dashboard')({
@@ -21,7 +22,7 @@ function RouteComponent() {
   const [network, setNetwork] = useState('normal')
 
   const queryClient = useQueryClient()
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['shifts', network],
     queryFn: () => {
       switch (network) {
@@ -37,18 +38,27 @@ function RouteComponent() {
     },
     staleTime: Infinity,
     gcTime: 0,
+    retry: false, // Disable automatic retries on failure - makes the getShiftError run only once
   })
 
   const updateAvailableToPending = (id: Shift['id']) => {
     queryClient.setQueryData(
       ['shifts', network],
       (oldData: Array<Shift> | undefined) => {
-        return oldData?.map((shift) =>
-          shift.id === id ? { ...shift, status: 'pending' as const } : shift,
-        )
+        return oldData?.map((shift) => {
+          if (shift.id === id) {
+            toast.success(
+              `Shift at ${shift.facilityName} in ${shift.location.city} is now pending!`,
+            )
+            return { ...shift, status: 'pending' }
+          } else {
+            return shift
+          }
+        })
       },
     )
   }
+
   return (
     <div className="flex flex-col w-full bg-blue-200">
       <div className="w-full border-b-black">
@@ -63,6 +73,11 @@ function RouteComponent() {
         </Container>
       </div>
       <div className="w-full bg-white border-t-black b-4">
+        {isError ? (
+          <Container className="py-6">
+            <div className="text-red-500 font-semibold">{error.message}</div>
+          </Container>
+        ) : null}
         <Container className="py-6">
           <DataTable
             columns={columns}
