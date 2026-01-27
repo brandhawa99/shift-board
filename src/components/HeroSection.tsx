@@ -5,7 +5,7 @@ import hospital from '@/images/landing.webp'
 
 const HeroSection = () => {
   return (
-    <div className="relative h-96 w-full">
+    <main className="relative h-96 w-full">
       <img
         src={hospital}
         fetchPriority="high"
@@ -28,7 +28,7 @@ const HeroSection = () => {
           </div>
         </Container>
       </div>
-    </div>
+    </main>
   )
 }
 
