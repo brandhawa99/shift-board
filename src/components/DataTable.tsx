@@ -17,9 +17,11 @@ import {
 } from './ui/table'
 import { Skeleton } from './ui/skeleton' // Assume standard shadcn skeleton
 import DataFilter from './DataFilter'
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState } from '@tanstack/react-table'
 import type { JSX } from 'react'
 import type { Shift } from '@/types/index'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import noshifts from '@/images/noshifts.png'
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -35,6 +37,10 @@ function DataTable<TData extends Shift, TValue>({
   updateShiftToPending,
 }: DataTableProps<TData, TValue>) {
   const [selectedShift, setSelectedShift] = useState<Shift | null>(null)
+  const [columnFilters, setColumnFilters] = useLocalStorage<ColumnFiltersState>(
+    'shift_board_filters',
+    [],
+  )
 
   const showShiftDetails = useCallback(
     (shift: TData) => setSelectedShift(shift),
@@ -48,6 +54,10 @@ function DataTable<TData extends Shift, TValue>({
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -73,7 +83,7 @@ function DataTable<TData extends Shift, TValue>({
                 key={i}
                 className="flex flex-col md:table-row p-4 md:p-0"
               >
-                {columns.map((_, j) => (
+                {columns.map((__, j) => (
                   <TableCell key={j} className="py-2 md:py-4">
                     <Skeleton className="h-4 w-full" />
                   </TableCell>
@@ -148,7 +158,9 @@ function DataTable<TData extends Shift, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results found.
+                  <div className="flex item-center justify-center bg-[#F7F6F7]">
+                    <img src={noshifts} alt="No Shifts" loading="lazy" />
+                  </div>
                 </TableCell>
               </TableRow>
             )}

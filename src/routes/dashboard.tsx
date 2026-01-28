@@ -1,8 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import type { Shift } from '@/types/index'
+import { useQuery } from '@tanstack/react-query'
 import { Container } from '@/components/Container'
 import { columns } from '@/components/Columns'
 import DataTable from '@/components/DataTable'
@@ -13,6 +11,7 @@ import {
   noShifts,
 } from '@/lib/fake-api'
 import NetworkSelect from '@/components/NetworkSelect'
+import { useApplyShift } from '@/hooks/useApplyShift'
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
@@ -21,7 +20,6 @@ export const Route = createFileRoute('/dashboard')({
 function RouteComponent() {
   const [network, setNetwork] = useState('normal')
 
-  const queryClient = useQueryClient()
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['shifts', network],
     queryFn: () => {
@@ -40,24 +38,7 @@ function RouteComponent() {
     gcTime: 0,
     retry: false, // Disable automatic retries on failure - makes the getShiftError run only once
   })
-
-  const updateAvailableToPending = (id: Shift['id']) => {
-    queryClient.setQueryData(
-      ['shifts', network],
-      (oldData: Array<Shift> | undefined) => {
-        return oldData?.map((shift) => {
-          if (shift.id === id) {
-            toast.success(
-              `Shift at ${shift.facilityName} in ${shift.location.city} is now pending!`,
-            )
-            return { ...shift, status: 'pending' }
-          } else {
-            return shift
-          }
-        })
-      },
-    )
-  }
+  const { mutate: applyToShift } = useApplyShift(['shifts', network]) // shifts , network used in cancel queries
 
   return (
     <div className="flex flex-col w-full bg-blue-200">
@@ -83,7 +64,7 @@ function RouteComponent() {
             columns={columns}
             data={data ?? []}
             isLoading={isLoading}
-            updateShiftToPending={updateAvailableToPending}
+            updateShiftToPending={(id) => applyToShift(id)}
           />
         </Container>
       </div>

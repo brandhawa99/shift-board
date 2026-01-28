@@ -17,6 +17,9 @@ export default defineConfig({
       webp: {
         quality: 40,
       },
+      png: {
+        quality: 40,
+      },
       logStats: true,
     }),
     devtools(),

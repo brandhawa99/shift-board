@@ -2,10 +2,9 @@ import { siGithub } from 'simple-icons'
 
 const Footer = () => {
   return (
-    <footer className="p-2 flex justify-between items-center w-full">
-      <div className="invisible">asdf</div>
+    <footer className="p-2 flex justify-between items-center w-full px-4">
       <div>Made By: Baltej Randhawa</div>
-      <div>
+      <div className="flex gap-2">
         <a
           className="flex gap-2 items-center"
           target="_blank"
@@ -22,17 +21,23 @@ const Footer = () => {
           </svg>
           Repo Link
         </a>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://unsplash.com/@scalzodesign?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-        >
-          Samuel Scalzo
-        </a>{' '}
-        on{' '}
-        <a href="https://unsplash.com/photos/white-concrete-building-illustration-iqGtaQnk3VM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
-          Unsplash
-        </a>
+        <div className="flex flex-col">
+          - Images Credit -
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://unsplash.com/@scalzodesign?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+          >
+            Samuel Scalzo
+          </a>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://unsplash.com/@sammywilliams?utm_content=creditCopyText"
+          >
+            Sander Sammy
+          </a>
+        </div>
       </div>
     </footer>
   )
